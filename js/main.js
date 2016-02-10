@@ -3,7 +3,9 @@ function initialize(){
     cities();
     addEvents();
     clickme();
+    jQueryAjax();
 };
+
 
 //function to create a table with cities and their populations
 function cities(){
@@ -101,5 +103,28 @@ function clickme(){
 		alert('Hey, you clicked me!');
     $('table').on('click', clickme);
 };
+
+//define AJAX function
+function jQueryAjax(){
+    //define a variable to hold the data
+    var mydata;
+    //basic jQuery ajax method
+    $.ajax("data/MegaCities.geojson", {
+          dataType: "json",
+          success: function(response){
+              mydata = response;
+              //check the data - data can be accessed, because this statement is
+              //executed within the callback, so only after the data has been received
+              //and assigned to mydata
+              console.log(mydata);
+              //appends stringified geoJSON data to the webpage along with a header
+              $(mydiv).append('<br>GeoJSON data:<br>' + JSON.stringify(mydata));
+          }
+      });
+      //check the data - data cannot be accessed, because this line is executed
+      //by the interpreter before the data arrives and is assigned to the variable
+      console.log(mydata);
+  };
+
 //call the initialize function when the document has loaded
 $(document).ready(initialize);
